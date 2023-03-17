@@ -13,7 +13,7 @@ class MowerTest {
     void executeOrders() {
         var mower = new Mower(new Position(1,1), Orientation.EAST, "AAGAAAG");
 
-        var expectedMower = new Mower(new Position(3,4), Orientation.WEST, "AAGAAAG");
+        var expectedMower = new Mower(new Position(3,4), Orientation.WEST, "");
         var resultMower = mower.executeOrders(lawn);
 
         assertEquals(expectedMower, resultMower);
@@ -23,7 +23,7 @@ class MowerTest {
     void executeOrdersInFrontOfWall() {
         var mower = new Mower(new Position(3,5), Orientation.NORTH, "AAAAA");
 
-        var expectedMower = mower;
+        var expectedMower = new Mower(mower.position(), mower.orientation(), "");
         var resultMower = mower.executeOrders(lawn);
 
         assertEquals(expectedMower, resultMower);

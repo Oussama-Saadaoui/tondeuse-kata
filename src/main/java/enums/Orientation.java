@@ -4,13 +4,23 @@ package enums;
 public enum Orientation {
     NORTH, EAST, SOUTH, WEST;
 
-    // TODO
+    private static final Orientation[] orientations = values();
+
+    /**
+     * Renvoie le prochain point cardinal en tournant de 90°
+     * N -> E -> S -> W -> N...
+     */
     public Orientation nextClockwise() {
-        return null;
+        return orientations[(this.ordinal() + 1) % orientations.length];
     }
 
-    // TODO
+    /**
+     * Renvoie le prochain point cardinal en tournant de -90°
+     * N -> W -> S -> E -> N...
+     */
     public Orientation previousClockwise() {
-        return null;
+        // Permet de récupérer la valeur précédente de la liste des valeurs possibles de l'enum
+        // On ajoute + orientations.length afin d'éviter un modulo sur un nombre négatif
+        return orientations[(this.ordinal() - 1 + orientations.length) % orientations.length];
     }
 }
