@@ -1,17 +1,32 @@
+import domain.LawnMowers;
+import serializers.TextFileSerializer;
+
+import java.io.IOException;
+
 public class Application {
 
     public static void main(String[] args) {
-        /* TODO
-           Lire fichier en entrée (args[0] in, args[1] out)
+        if (args.length != 2) {
+            System.out.println("Expecting two args: [fileIn] [fileOut]");
+        }
 
-           Créer pelouse avec ligne 1 du fichier (coords coin droit)
+        String inputFilePath = args[0];
+        String outputFilePath = args[1];
 
-           Pour chaque 2 lignes en plus:
-           1ere ligne coords de la tondeuse
-           2eme ligne ordres de la tondeuse (A avancer, G gauche, D droite) sur tondeuse L1
+        TextFileSerializer textFileSerializer = new TextFileSerializer();
 
-           Ecrire coords de toutes les tondeuses en out
-           (X Y DIR)
-         */
+        try {
+            // On récupère et initialise la pelouse ainsi que les tondeuses liées à celle-ci
+
+            LawnMowers lawnMowers = textFileSerializer.processInputFileLines(inputFilePath);
+
+            // Execution des ordres donnés à chaque tondeuse
+            lawnMowers = lawnMowers.executeOrders();
+
+            //  Ecrire toutes les positions finales des tondeuses dans le fichier de sortie
+            textFileSerializer.writeOutputFileLines(outputFilePath, lawnMowers.mowers());
+        } catch (IOException e) {
+            System.out.println("An error has occured during the execution of the software :\n"+e);
+        }
     }
 }
